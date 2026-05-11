@@ -7,6 +7,8 @@ namespace ExcelRenderer.Functions.Tests;
 
 public sealed class ExcelRenderServiceTests
 {
+    private static readonly JsonSerializerOptions JsonOpts = new() { PropertyNameCaseInsensitive = true };
+
     private static ExcelRenderService CreateService() => new();
 
     // Mirrors the failing payload shape: string "equal" conditional format
@@ -51,7 +53,7 @@ public sealed class ExcelRenderServiceTests
         }
         """;
 
-        var payload = JsonSerializer.Deserialize<RenderPayload>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        var payload = JsonSerializer.Deserialize<RenderPayload>(json, JsonOpts)!;
         var output = CreateService().Render(payload, null, 20000);
 
         Assert.NotNull(output.Bytes);
@@ -99,7 +101,7 @@ public sealed class ExcelRenderServiceTests
         }
         """;
 
-        var payload = JsonSerializer.Deserialize<RenderPayload>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        var payload = JsonSerializer.Deserialize<RenderPayload>(json, JsonOpts)!;
         var output = CreateService().Render(payload, null, 20000);
 
         Assert.NotNull(output.Bytes);
